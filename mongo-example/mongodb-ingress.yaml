@@ -2,11 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mongodb-ingress
+  namespace: mongo
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: "mongodb.local"
+    - host: "mondb-test.test.medirecords.com"
       http:
         paths:
         - path: /

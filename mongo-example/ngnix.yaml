@@ -19,17 +19,50 @@ spec:
         image: nginx
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: ngnix-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-name: ngnix-nlb
+#    service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "true"
+#    service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-name: "s3://devops-testing"
 spec:
   selector:
     app: ngnix
-  type: LoadBalancer  
+  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8080
+      port: 8088
       targetPort: 80
+
+
+#---
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: nginx-ingress
+#  annotations:
+#    kubernetes.io/ingress.class: "nginx" # use the one that corresponds to your ingress controller.
+#spec:
+#  rules:
+#  - host: k8snginx.vpn.medirecords.com
+#    http:
+#      paths:
+#        - path: /
+#          pathType: ImplementationSpecific
+#          backend:
+#            service:
+#              name: ngnix-service
+#              port:
+#                number: 8088

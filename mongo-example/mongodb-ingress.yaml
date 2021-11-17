@@ -4,10 +4,11 @@ metadata:
   name: mongodb-ingress
   namespace: mongo
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    kubernetes.io/ingress.class: alb
 spec:
   rules:
-    - host: "mondb-test.test.medirecords.com"
+    - host: "mondb-test.vpn.medirecords.com"
       http:
         paths:
         - path: /

@@ -30,5 +30,3 @@ spec:
 #            name: mongo-express-service
 #            port:
 #              number: 8081
-
-#  0xF0 0x9F 0xA6 0x86

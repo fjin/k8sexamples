@@ -6,16 +6,18 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-bb53a7dc, subnet-1366b34b, subnet-fc31d5b5
 spec:
   rules:
-    - host: "mondb-test.vpn.medirecords.com"
-      http:
+    #    - host: k8s.test.medirecords.com
+    - http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: mongodb-service
-              port:
-                number: 27017
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: mongodb-service
+                port:
+                  number: 27017
 

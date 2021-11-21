@@ -1,19 +1,34 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-bb53a7dc, subnet-1366b34b, subnet-fc31d5b5
   name: mongo-ingress
   namespace: mongo
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - http:
-      paths:
-      - path: /*
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: mongo-express-service
-            port:
-              number: 8081
+    - host: k8s.test.medirecords.com
+      http:
+        paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: mongo-express-service
+              port:
+                number: 80
+#  rules:
+#  - http:
+#      paths:
+#      - path: /*
+#        pathType: ImplementationSpecific
+#        backend:
+#          service:
+#            name: mongo-express-service
+#            port:
+#              number: 8081
 
+#  &#9658;

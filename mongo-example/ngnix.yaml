@@ -26,7 +26,7 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
-        
+
 ---
 apiVersion: v1
 kind: Service
@@ -40,29 +40,29 @@ metadata:
 spec:
   selector:
     app: ngnix
-  type: LoadBalancer
+#  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 8088
       targetPort: 80
 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx
+  annotations:
+    kubernetes.io/ingress.class: "nginx" # use the one that corresponds to your ingress controller.
+spec:
+  rules:
+    - host: nginx.test.medirecords.com
+      http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
 
-#---
-#apiVersion: networking.k8s.io/v1
-#kind: Ingress
-#metadata:
-#  name: nginx-ingress
-#  annotations:
-#    kubernetes.io/ingress.class: "nginx" # use the one that corresponds to your ingress controller.
-#spec:
-#  rules:
-#  - host: k8snginx.vpn.medirecords.com
-#    http:
-#      paths:
-#        - path: /
-#          pathType: ImplementationSpecific
-#          backend:
-#            service:
-#              name: ngnix-service
-#              port:
-#                number: 8088

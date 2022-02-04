@@ -6,11 +6,12 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/subnets: subnet-bb53a7dc, subnet-1366b34b, subnet-fc31d5b5
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-southeast-2:725257445090:certificate/07fa2113-74cf-41ec-af89-9a2d624022f0
   name: mongo-ingress
   namespace: mongo
 spec:
   rules:
-    - host: k8s.test.medirecords.com
+    - host: mongo-test.test.medirecords.com
       http:
         paths:
         - path: /*
@@ -20,13 +21,13 @@ spec:
               name: mongo-express-service
               port:
                 number: 80
-#  rules:
-#  - http:
-#      paths:
-#      - path: /*
-#        pathType: ImplementationSpecific
-#        backend:
-#          service:
-#            name: mongo-express-service
-#            port:
-#              number: 8081
+    - host: mongo-test2.test.medirecords.com
+      http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: mongo-express-service
+                port:
+                  number: 80

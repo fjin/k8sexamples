@@ -1,0 +1,36 @@
+# webhook-tester.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webhook-tester
+  name: webhook-tester
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhook-tester
+  template:
+    metadata:
+      labels:
+        app: webhook-tester
+    spec:
+      containers:
+        - image: ghcr.io/coveros/webhook-tester:edge
+          name: webhook-tester
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-tester
+  labels:
+    app: webhook-tester
+spec:
+  selector:
+    app: webhook-tester
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

@@ -10,8 +10,8 @@ metadata:
     alb.ingress.kubernetes.io/subnets: subnet-bb53a7dc, subnet-1366b34b, subnet-fc31d5b5
 spec:
   rules:
-    #    - host: k8s.test.medirecords.com
-    - http:
+    - host: mongo.test.medirecords.com
+      http:
         paths:
           - path: /*
             pathType: ImplementationSpecific

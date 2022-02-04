@@ -1,43 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ngnix
+  name: ngrok
   labels:
-    app: ngnix
+    app: ngrok
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ngnix
+      app: ngrok
   template:
     metadata:
       labels:
-        app: ngnix
+        app: ngrok
     spec:
       containers:
-      - name: ngnix
-        image: nginx
+      - name: ngrok
+        image: wernight/ngrok
+        command: [ "ngrok" ]
+        args: [ "http", "nginx-service" ]
         ports:
-        - containerPort: 80
+        - containerPort: 4040
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
-    service.beta.kubernetes.io/aws-load-balancer-name: ngnix-nlb
-#    service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "true"
-#    service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-name: "s3://devops-testing"
+  name: ngrok-service
 spec:
   selector:
-    app: ngnix
+    app: ngrok
 #  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 4040
+      targetPort: 4040
 
 #---
 #apiVersion: networking.k8s.io/v1

@@ -13,7 +13,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: efs-claim
-  namespace: mongo
+  namespace: medirecords
 spec:
   accessModes:
     - ReadWriteMany
@@ -36,7 +36,7 @@ spec:
     - tls
   persistentVolumeReclaimPolicy: Retain
   claimRef:
-    namespace: mongo
+    namespace: medirecords
     name: efs-claim
   storageClassName: efs-sc
   csi:
@@ -47,7 +47,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: efs-app
-  namespace: mongo
+  namespace: medirecords
 spec:
   containers:
     - name: app
